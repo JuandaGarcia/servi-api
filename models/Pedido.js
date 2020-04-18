@@ -2,20 +2,16 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 // Esquema de usuarios
-const UserSchema = new Schema({
-	nombre: {
+const PedidoSchema = new Schema({
+	id: {
+		type: Number,
+		required: true,
+	},
+	id_servicio: {
 		type: String,
 		required: true,
 	},
-	email: {
-		type: String,
-		required: true,
-	},
-	password: {
-		type: String,
-		required: true,
-	},
-	telefono: {
+	email_usuario_comun: {
 		type: String,
 		required: true,
 	},
@@ -25,4 +21,4 @@ const UserSchema = new Schema({
 	},
 })
 
-module.exports = User = mongoose.model('users', UserSchema)
+module.exports = Pedido = mongoose.model('pedido', PedidoSchema)

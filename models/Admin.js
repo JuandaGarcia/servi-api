@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 // Esquema de usuarios
-const UserSchema = new Schema({
+const AdminSchema = new Schema({
 	nombre: {
 		type: String,
 		required: true,
@@ -15,14 +15,10 @@ const UserSchema = new Schema({
 		type: String,
 		required: true,
 	},
-	telefono: {
-		type: String,
-		required: true,
-	},
 	date: {
 		type: Date,
 		default: Date.now,
 	},
 })
 
-module.exports = User = mongoose.model('users', UserSchema)
+module.exports = Admin = mongoose.model('admin', AdminSchema)

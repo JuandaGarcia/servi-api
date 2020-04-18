@@ -12,24 +12,25 @@ process.env.SECRET_KEY = 'secret'
 users.post('/register', (req, res) => {
 	const today = new Date()
 	const userData = {
-		username: req.body.username,
+		nombre: req.body.nombre,
 		email: req.body.email,
 		password: req.body.password,
-		created: today
+		telefono: req.body.telefono,
+		created: today,
 	}
 
 	User.findOne({
-		email: req.body.email
+		email: req.body.email,
 	})
-		.then(user => {
+		.then((user) => {
 			if (!user) {
 				bcrypt.hash(req.body.password, 10, (err, hash) => {
 					userData.password = hash
 					User.create(userData)
-						.then(user => {
+						.then((user) => {
 							res.json({ status: user.email + ' Registered!' })
 						})
-						.catch(err => {
+						.catch((err) => {
 							res.send('error: ' + err)
 						})
 				})
@@ -37,26 +38,26 @@ users.post('/register', (req, res) => {
 				res.json({ error: 'User already exists' })
 			}
 		})
-		.catch(err => {
+		.catch((err) => {
 			res.send('error: ' + err)
 		})
 })
 
 users.post('/login', (req, res) => {
 	User.findOne({
-		email: req.body.email
+		email: req.body.email,
 	})
-		.then(user => {
+		.then((user) => {
 			if (user) {
 				if (bcrypt.compareSync(req.body.password, user.password)) {
 					// Passwords match
 					const payload = {
 						_id: user._id,
 						username: user.username,
-						email: user.email
+						email: user.email,
 					}
 					let token = jwt.sign(payload, process.env.SECRET_KEY, {
-						expiresIn: 1440
+						expiresIn: 1440,
 					})
 					res.send(token)
 				} else {
@@ -67,7 +68,7 @@ users.post('/login', (req, res) => {
 				res.json({ error: 'User does not exist' })
 			}
 		})
-		.catch(err => {
+		.catch((err) => {
 			res.send('error: ' + err)
 		})
 })
@@ -76,16 +77,16 @@ users.get('/profile', (req, res) => {
 	var decoded = jwt.verify(req.headers['authorization'], process.env.SECRET_KEY)
 
 	User.findOne({
-		_id: decoded._id
+		_id: decoded._id,
 	})
-		.then(user => {
+		.then((user) => {
 			if (user) {
 				res.json(user)
 			} else {
 				res.send('User does not exist')
 			}
 		})
-		.catch(err => {
+		.catch((err) => {
 			res.send('error: ' + err)
 		})
 })
