@@ -1,32 +1,33 @@
 const express = require('express')
-const users = express.Router()
+const prestador = express.Router()
 const cors = require('cors')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 
-const User = require('../models/User')
-users.use(cors())
+const UserPrestador = require('../models/UserPrestador')
+prestador.use(cors())
 
 process.env.SECRET_KEY = 'secret'
 
-users.post('/register', (req, res) => {
+prestador.post('/register', (req, res) => {
 	const today = new Date()
 	const userData = {
 		nombre: req.body.nombre,
 		email: req.body.email,
 		password: req.body.password,
 		telefono: req.body.telefono,
+		aceptado: false,
 		created: today,
 	}
 
-	User.findOne({
+	UserPrestador.findOne({
 		email: req.body.email,
 	})
 		.then((user) => {
 			if (!user) {
 				bcrypt.hash(req.body.password, 10, (err, hash) => {
 					userData.password = hash
-					User.create(userData)
+					UserPrestador.create(userData)
 						.then((user) => {
 							res.json({ status: user.email + ' Registered!' })
 						})
@@ -43,8 +44,8 @@ users.post('/register', (req, res) => {
 		})
 })
 
-users.post('/login', (req, res) => {
-	User.findOne({
+prestador.post('/login', (req, res) => {
+	UserPrestador.findOne({
 		email: req.body.email,
 	})
 		.then((user) => {
@@ -55,11 +56,12 @@ users.post('/login', (req, res) => {
 						_id: user._id,
 						nombre: user.nombre,
 						email: user.email,
+						aceptado: user.aceptado,
 					}
 					let token = jwt.sign(payload, process.env.SECRET_KEY, {
 						expiresIn: 1440,
 					})
-					res.status(200).send(token)
+					res.send(token)
 				} else {
 					// Passwords don't match
 					res.json({ error: 'User does not exist' })
@@ -73,10 +75,10 @@ users.post('/login', (req, res) => {
 		})
 })
 
-users.get('/profile', (req, res) => {
+prestador.get('/profile', (req, res) => {
 	var decoded = jwt.verify(req.headers['authorization'], process.env.SECRET_KEY)
 
-	User.findOne({
+	UserPrestador.findOne({
 		_id: decoded._id,
 	})
 		.then((user) => {
@@ -91,4 +93,4 @@ users.get('/profile', (req, res) => {
 		})
 })
 
-module.exports = users
+module.exports = prestador

@@ -19,9 +19,9 @@ const UserPrestadorSchema = new Schema({
 		type: String,
 		required: true,
 	},
-	servicios: {
-		type: [Number],
-		required: true,
+	aceptado: {
+		type: Boolean,
+		default: false,
 	},
 	date: {
 		type: Date,
