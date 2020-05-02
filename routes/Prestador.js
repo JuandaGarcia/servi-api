@@ -93,4 +93,45 @@ prestador.get('/profile', (req, res) => {
 		})
 })
 
+prestador.get('/todos', async (req, res) => {
+	var usuarios = await UserPrestador.find({ aceptado: false })
+		.then((users) => {
+			res.status(200).json(users)
+		})
+		.catch((err) => {
+			res.status(500).json({ error: err })
+		})
+})
+
+prestador.delete('/:id', async (req, res) => {
+	const { id } = req.params
+	console.log(id)
+	await UserPrestador.deleteOne({ _id: id })
+		.then((users) => {
+			res.status(200).json(users)
+		})
+		.catch((err) => {
+			res.status(500).json({ error: err })
+		})
+})
+
+prestador.put('/:id', async (req, res) => {
+	const { id } = req.params
+	console.log(id)
+	await UserPrestador.findOneAndUpdate(
+		{ _id: id },
+		{
+			$set: {
+				aceptado: true,
+			},
+		}
+	)
+		.then((users) => {
+			res.status(200).json(users)
+		})
+		.catch((err) => {
+			res.status(500).json({ error: err })
+		})
+})
+
 module.exports = prestador
