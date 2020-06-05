@@ -3,11 +3,7 @@ const Schema = mongoose.Schema
 
 // Esquema de usuarios
 const ServicioSchema = new Schema({
-	id: {
-		type: Number,
-		required: true,
-	},
-	tipo_servicio: {
+	nombre: {
 		type: String,
 		required: true,
 	},
@@ -15,25 +11,21 @@ const ServicioSchema = new Schema({
 		type: String,
 		required: true,
 	},
-	tipo: {
+	categoria: {
+		type: String,
+		required: true,
+	},
+	precio: {
+		type: Number,
+		required: true,
+	},
+	nombre_usuario_prestador: {
 		type: String,
 		required: true,
 	},
 	email_usuario_prestador: {
 		type: String,
 		required: true,
-	},
-	calificacion: {
-		type: Number,
-		required: true,
-	},
-	estado: {
-		type: Boolean,
-		required: true,
-	},
-	date: {
-		type: Date,
-		default: Date.now,
 	},
 })
 
