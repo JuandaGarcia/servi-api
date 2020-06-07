@@ -56,9 +56,7 @@ users.post('/login', (req, res) => {
 						nombre: user.nombre,
 						email: user.email,
 					}
-					let token = jwt.sign(payload, process.env.SECRET_KEY, {
-						expiresIn: 1440,
-					})
+					let token = jwt.sign(payload, process.env.SECRET_KEY)
 					res.status(200).send(token)
 				} else {
 					// Passwords don't match
@@ -73,8 +71,8 @@ users.post('/login', (req, res) => {
 		})
 })
 
-users.get('/profile', (req, res) => {
-	var decoded = jwt.verify(req.headers['authorization'], process.env.SECRET_KEY)
+users.get('/profile/:id', (req, res) => {
+	var decoded = jwt.verify(req.params.id, process.env.SECRET_KEY)
 
 	User.findOne({
 		_id: decoded._id,

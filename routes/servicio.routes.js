@@ -58,6 +58,18 @@ servicios.get('/categoria/:categoria', (req, res) => {
 		})
 })
 
+servicios.get('/one/:id', (req, res) => {
+	Servicio.find({
+		_id: req.params.id,
+	})
+		.then((servicios) => {
+			res.status(200).json(servicios)
+		})
+		.catch((err) => {
+			res.status(500).send('error: ' + err)
+		})
+})
+
 servicios.put('/', (req, res) => {
 	Servicio.update(
 		{ _id: req.body.id },

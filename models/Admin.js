@@ -15,6 +15,10 @@ const AdminSchema = new Schema({
 		type: String,
 		required: true,
 	},
+	telefono: {
+		type: String,
+		required: true,
+	},
 	date: {
 		type: Date,
 		default: Date.now,

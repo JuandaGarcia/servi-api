@@ -45,6 +45,7 @@ prestador.post('/register', (req, res) => {
 })
 
 prestador.post('/login', (req, res) => {
+	console.log('entro')
 	UserPrestador.findOne({
 		email: req.body.email,
 	})
@@ -58,9 +59,7 @@ prestador.post('/login', (req, res) => {
 						email: user.email,
 						aceptado: user.aceptado,
 					}
-					let token = jwt.sign(payload, process.env.SECRET_KEY, {
-						expiresIn: 1440,
-					})
+					let token = jwt.sign(payload, process.env.SECRET_KEY)
 					res.send(token)
 				} else {
 					// Passwords don't match

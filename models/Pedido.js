@@ -3,11 +3,19 @@ const Schema = mongoose.Schema
 
 // Esquema de usuarios
 const PedidoSchema = new Schema({
-	id: {
-		type: Number,
+	id_servicio: {
+		type: String,
 		required: true,
 	},
-	id_servicio: {
+	nombre_servicio: {
+		type: String,
+		required: true,
+	},
+	nombre_prestador: {
+		type: String,
+		required: true,
+	},
+	telefono_usuario: {
 		type: String,
 		required: true,
 	},
@@ -15,9 +23,9 @@ const PedidoSchema = new Schema({
 		type: String,
 		required: true,
 	},
-	date: {
-		type: Date,
-		default: Date.now,
+	email_usuario_prestador: {
+		type: String,
+		required: true,
 	},
 })
 
